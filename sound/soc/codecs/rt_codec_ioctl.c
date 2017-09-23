@@ -162,7 +162,9 @@ int realtek_ce_init_hwdep(struct snd_soc_codec *codec)
 	dev_dbg(codec->dev, "enter %s\n", __func__);
 
 	err = snd_hwdep_new(card, RT_CE_CODEC_HWDEP_NAME, 0, &hw);
-	if (err < 0)
+
+ 	if (err < 0)
+
 		return err;
 	
 	strcpy(hw->name, RT_CE_CODEC_HWDEP_NAME);

@@ -1420,11 +1420,12 @@ static int soc_probe_link_dais(struct snd_soc_card *card, int num, int order)
 	} else {
 
 		/* create the pcm */
-		ret = soc_new_pcm(rtd, num);
-		if (ret < 0) {
-			dev_err(card->dev, "ASoC: can't create pcm %s :%d\n",
-				dai_link->stream_name, ret);
-			return ret;
+ 		ret = soc_new_pcm(rtd, num);
+ 		if (ret < 0) {
+ 			dev_err(card->dev, "ASoC: can't create pcm %s :%d\n",
+ 				dai_link->stream_name, ret);
+ 			return ret;
+
 		}
 	}
 

@@ -31,7 +31,7 @@
 #include <linux/delay.h>
 #include <linux/pm_runtime.h>
 #include <mach/tegra_asoc_pdata.h>
-#include <mach/gpio-tegra.h>
+#include <linux/platform_data/gpio-tegra.h>
 #include <mach/tegra_rt5640_pdata.h>
 
 #include <sound/core.h>

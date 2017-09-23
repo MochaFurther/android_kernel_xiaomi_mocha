@@ -1731,13 +1731,13 @@ static int dapm_power_widgets(struct snd_soc_dapm_context *dapm, int event)
 	trace_snd_soc_dapm_walk_done(card);
 
 	/* Run card bias changes at first */
-	dapm_pre_sequence_async(&card->dapm, 0);
-	/* Run other bias changes in parallel */
-	list_for_each_entry(d, &dapm->card->dapm_list, list) {
-		if (d != &card->dapm)
-			async_schedule_domain(dapm_pre_sequence_async, d,
-						&async_domain);
-	}
+ 	dapm_pre_sequence_async(&card->dapm, 0);
+ 	/* Run other bias changes in parallel */
+ 	list_for_each_entry(d, &dapm->card->dapm_list, list) {
+ 		if (d != &card->dapm)
+ 			async_schedule_domain(dapm_pre_sequence_async, d,
+ 						&async_domain);
+ 	}
 	async_synchronize_full_domain(&async_domain);
 
 	/* Power down widgets first; try to avoid amplifying pops. */
@@ -1749,14 +1749,15 @@ static int dapm_power_widgets(struct snd_soc_dapm_context *dapm, int event)
 	dapm_seq_run(dapm, &up_list, event, true);
 
 	/* Run other bias changes in parallel */
-	list_for_each_entry(d, &dapm->card->dapm_list, list) {
-		if (d != &card->dapm)
-			async_schedule_domain(dapm_post_sequence_async, d,
-						&async_domain);
-	}
+
+ 	list_for_each_entry(d, &dapm->card->dapm_list, list) {
+ 		if (d != &card->dapm)
+ 			async_schedule_domain(dapm_post_sequence_async, d,
+ 						&async_domain);
+ 	}
 	async_synchronize_full_domain(&async_domain);
 	/* Run card bias changes at last */
-	dapm_post_sequence_async(&card->dapm, 0);
+ 	dapm_post_sequence_async(&card->dapm, 0);
 
 	/* do we need to notify any clients that DAPM event is complete */
 	list_for_each_entry(d, &card->dapm_list, list) {
@@ -3221,11 +3222,11 @@ static int snd_soc_dai_link_event(struct snd_soc_dapm_widget *w,
 				  struct snd_kcontrol *kcontrol, int event)
 {
 	struct snd_soc_dapm_path *source_p;
-	struct snd_soc_dai *source;
-	struct snd_soc_pcm_runtime *rtd = w->rtd;
-	const struct snd_soc_pcm_stream *config = rtd->dai_link->params;
-	struct snd_pcm_substream *substream = w->priv;
-	struct snd_pcm_hw_params *params = NULL;
+ 	struct snd_soc_dai *source;
+ 	struct snd_soc_pcm_runtime *rtd = w->rtd;
+ 	const struct snd_soc_pcm_stream *config = rtd->dai_link->params;
+ 	struct snd_pcm_substream *substream = w->priv;
+    struct snd_pcm_hw_params *params = NULL;
 	int ret = 0;
 
 	BUG_ON(!config);
@@ -3235,8 +3236,9 @@ static int snd_soc_dai_link_event(struct snd_soc_dapm_widget *w,
 	source_p = list_first_entry(&w->sources, struct snd_soc_dapm_path,
 				    list_sink);
 	BUG_ON(!source_p);
-	BUG_ON(!source_p->sink);
-	BUG_ON(!source_p->source);
+
+ 	BUG_ON(!source_p->sink);
+ 	BUG_ON(!source_p->source);
 
 	source = source_p->source->priv;
 
@@ -3247,11 +3249,11 @@ static int snd_soc_dai_link_event(struct snd_soc_dapm_widget *w,
 		goto out;
 	}
 	_snd_pcm_hw_params_any(params);
-
-	hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT)->bits[0] =
-		config->formats;
-	hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT)->bits[1] =
-		config->formats >> 32;
+ 
+ 	hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT)->bits[0] =
+ 		config->formats;
+ 	hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT)->bits[1] =
+ 		config->formats >> 32;
 
 	hw_param_interval(params, SNDRV_PCM_HW_PARAM_RATE)->min =
 		config->rate_min;
@@ -3266,36 +3268,37 @@ static int snd_soc_dai_link_event(struct snd_soc_dapm_widget *w,
 	switch (event) {
 	case SND_SOC_DAPM_PRE_PMU:
 		ret = snd_pcm_open_substream(rtd->pcm,
-			source == rtd->codec_dai, NULL, &substream);
-		if (ret < 0) {
-			dev_err(w->dapm->dev, "ASoC: open() failed: %d\n", ret);
-			goto out;
+ 			source == rtd->codec_dai, NULL, &substream);
+ 		if (ret < 0) {
+ 			dev_err(w->dapm->dev, "ASoC: open() failed: %d\n", ret);
+ 			goto out;
 		}
+
 		w->priv = substream;
 
 		ret = rtd->ops.hw_params(substream, params);
-		if (ret < 0) {
-			dev_err(w->dapm->dev, "ASoC: hw_params() failed: %d\n", ret);
-			goto out;
-		}
-		ret = rtd->ops.prepare(substream);
-		if (ret < 0) {
-			dev_err(w->dapm->dev, "ASoC: prepare() failed: %d\n", ret);
-			goto out;
-		}
-		ret = rtd->ops.trigger(substream, SNDRV_PCM_TRIGGER_START);
-		if (ret < 0) {
-			dev_err(w->dapm->dev, "ASoC: trigger() failed: %d\n", ret);
-			goto out;
+ 		if (ret < 0) {
+ 			dev_err(w->dapm->dev, "ASoC: hw_params() failed: %d\n", ret);
+ 			goto out;
+ 		}
+ 		ret = rtd->ops.prepare(substream);
+ 		if (ret < 0) {
+ 			dev_err(w->dapm->dev, "ASoC: prepare() failed: %d\n", ret);
+ 			goto out;
+ 		}
+ 		ret = rtd->ops.trigger(substream, SNDRV_PCM_TRIGGER_START);
+ 		if (ret < 0) {
+ 			dev_err(w->dapm->dev, "ASoC: trigger() failed: %d\n", ret);
+ 			goto out;
 		}
 		break;
 
 	case SND_SOC_DAPM_PRE_PMD:
 		if (substream) {
-			snd_pcm_release_substream(substream);
-			w->priv = NULL;
-		}
-		break;
+ 			snd_pcm_release_substream(substream);
+ 			w->priv = NULL;
+ 		}
+	break;
 
 	default:
 		BUG();
@@ -3308,66 +3311,68 @@ out:
 }
 
 int snd_soc_dapm_new_dai_link_widgets(struct snd_soc_dapm_context *dapm,
-				      struct snd_soc_pcm_runtime *rtd)
+ 				      struct snd_soc_pcm_runtime *rtd)
 {
 	struct snd_soc_dapm_route routes[2];
 	struct snd_soc_dapm_widget template;
 	struct snd_soc_dapm_widget *source;
-	struct snd_soc_dapm_widget *sink;
+ 	struct snd_soc_dapm_widget *sink;
 	struct snd_soc_dapm_widget *w;
 	size_t len;
 	char *link_name;
 	int i, ret = 0;
 
 	for (i = 0; i < 2; i++) {
-		if (i == 0) {
-			source = rtd->cpu_dai->capture_widget;
-			sink = rtd->codec_dai->playback_widget;
-		} else {
-			source = rtd->codec_dai->capture_widget;
-			sink = rtd->cpu_dai->playback_widget;
-		}
 
-len = strlen(source->name) + strlen(sink->name) + 2;
-		link_name = devm_kzalloc(dapm->dev, len, GFP_KERNEL);
-		if (!link_name)
-			return -ENOMEM;
-		snprintf(link_name, len, "%s-%s", source->name, sink->name);
+ 		if (i == 0) {
+ 			source = rtd->cpu_dai->capture_widget;
+ 			sink = rtd->codec_dai->playback_widget;
+ 		} else {
+ 			source = rtd->codec_dai->capture_widget;
+ 			sink = rtd->cpu_dai->playback_widget;
+ 		}
+
+		len = strlen(source->name) + strlen(sink->name) + 2;
+ 		link_name = devm_kzalloc(dapm->dev, len, GFP_KERNEL);
+ 		if (!link_name)
+ 			return -ENOMEM;
+ 		snprintf(link_name, len, "%s-%s", source->name, sink->name);
 
 		memset(&template, 0, sizeof(template));
-		template.reg = SND_SOC_NOPM;
-		template.id = snd_soc_dapm_dai_link;
-		template.name = link_name;
-		template.event = snd_soc_dai_link_event;
-		template.event_flags = SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_PRE_PMD;
+ 		template.reg = SND_SOC_NOPM;
+ 		template.id = snd_soc_dapm_dai_link;
+ 		template.name = link_name;
+ 		template.event = snd_soc_dai_link_event;
+ 		template.event_flags = SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_PRE_PMD;
 
 		dev_dbg(dapm->dev, "ASoC: adding %s widget\n", link_name);
 
 		w = snd_soc_dapm_new_control(dapm, &template);
-		if (!w) {
-			dev_err(dapm->dev, "ASoC: Failed to create %s widget\n",
-				link_name);
-			return -ENOMEM;
-		}
-
-	w->rtd = rtd;
+ 		if (!w) {
+ 			dev_err(dapm->dev, "ASoC: Failed to create %s widget\n",
+ 				link_name);
+ 			return -ENOMEM;
+ 		}
+ 
+	 	w->rtd = rtd;
 
 		memset(&routes, 0, sizeof(routes));
 
 		routes[0].source = source->name;
-		routes[0].sink = link_name;
-		routes[1].source = link_name;
-		routes[1].sink = sink->name;
+ 		routes[0].sink = link_name;
+ 		routes[1].source = link_name;
+ 		routes[1].sink = sink->name;
 
 		ret = snd_soc_dapm_add_routes(dapm, routes, ARRAY_SIZE(routes));
-		if (ret < 0) {
-			dev_err(dapm->dev, "ASoC: Failed to add %s route\n",
-				link_name);
-			return ret;
-		}
-	}
+ 		if (ret < 0) {
+ 			dev_err(dapm->dev, "ASoC: Failed to add %s route\n",
+ 				link_name);
+ 			return ret;
+ 		}
+ 	}
+ 
+ 	return ret;
 
-	return ret;
 }
 
 int snd_soc_dapm_new_dai_widgets(struct snd_soc_dapm_context *dapm,
@@ -3828,17 +3833,19 @@ void snd_soc_dapm_shutdown(struct snd_soc_card *card)
 	struct snd_soc_dapm_context *dapm;
 
 	list_for_each_entry(dapm, &card->dapm_list, list) {
-		if (dapm != &card->dapm) {
-			soc_dapm_shutdown_dapm(dapm);
-			if (dapm->bias_level == SND_SOC_BIAS_STANDBY)
-				snd_soc_dapm_set_bias_level(dapm,
-							    SND_SOC_BIAS_OFF);
-		}
-	}
 
-	soc_dapm_shutdown_dapm(&card->dapm);
-	if (card->dapm.bias_level == SND_SOC_BIAS_STANDBY)
-		snd_soc_dapm_set_bias_level(&card->dapm,
+ 		if (dapm != &card->dapm) {
+ 			soc_dapm_shutdown_dapm(dapm);
+ 			if (dapm->bias_level == SND_SOC_BIAS_STANDBY)
+ 				snd_soc_dapm_set_bias_level(dapm,
+ 							    SND_SOC_BIAS_OFF);
+ 		}
+  	}
+ 
+ 	soc_dapm_shutdown_dapm(&card->dapm);
+ 	if (card->dapm.bias_level == SND_SOC_BIAS_STANDBY)
+ 		snd_soc_dapm_set_bias_level(&card->dapm,
+
 					    SND_SOC_BIAS_OFF);
 }
 

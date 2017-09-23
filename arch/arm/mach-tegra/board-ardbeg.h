@@ -99,7 +99,7 @@ enum tegra_bb_type {
 
 /* Audio-related GPIOs */
 #define TEGRA_GPIO_CDC_IRQ	TEGRA_GPIO_PW2
-#define TEGRA_GPIO_HP_DET		TEGRA_GPIO_PK2
+#define TEGRA_GPIO_HP_DET	TEGRA_GPIO_PK2
 #define TEGRA_GPIO_HP_MUTE	TEGRA_GPIO_PX1
 /*LDO_EN signal is required only for RT5639 and not for RT5645,
 on Laguna the LDO_EN signal comes from a GPIO expander and

@@ -126,6 +126,7 @@ snd-soc-wm-hubs-objs := wm_hubs.o
 snd-soc-rt5639-objs := rt5639.o rt56xx_ioctl.o rt5639_ioctl.o
 snd-soc-rt5640-objs := rt5640.o
 snd-soc-rt5645-objs := rt5645.o rt5645_ioctl.o rt_codec_ioctl.o
+snd-soc-rt5659-objs := rt5659.o
 snd-soc-rt5671-objs := rt5671.o rt5671_ioctl.o rt_codec_ioctl.o rt5671-dsp.o
 
 # Amp
@@ -260,7 +261,9 @@ obj-$(CONFIG_SND_SOC_WM_HUBS)	+= snd-soc-wm-hubs.o
 obj-$(CONFIG_SND_SOC_RT5639)	+= snd-soc-rt5639.o
 obj-$(CONFIG_SND_SOC_RT5640)	+= snd-soc-rt5640.o
 obj-$(CONFIG_SND_SOC_RT5645)	+= snd-soc-rt5645.o
+obj-$(CONFIG_SND_SOC_RT5659)	+= snd-soc-rt5659.o
 obj-$(CONFIG_SND_SOC_RT5671)	+= snd-soc-rt5671.o
+obj-$(CONFIG_SND_SOC_ES755)     += audience/
 
 # Amp
 obj-$(CONFIG_SND_SOC_MAX9877)	+= snd-soc-max9877.o

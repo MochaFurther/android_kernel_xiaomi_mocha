@@ -283,10 +283,7 @@ static struct platform_device *ardbeg_devices[] __initdata = {
 	&tegra_hda_device,
 	&tegra_offload_device,
 	&tegra30_avp_audio_device,
-#if defined(CONFIG_CRYPTO_DEV_TEGRA_AES)
-	&tegra_aes_device,
-#endif
-	&tegra_hier_ictlr_device,
+	&fm_dit_device,
 };
 
 static struct tegra_usb_platform_data tegra_udc_pdata = {
@@ -774,6 +771,18 @@ static struct of_dev_auxdata ardbeg_auxdata_lookup[] __initdata = {
 	OF_DEV_AUXDATA("nvidia,tegra114-ahci-sata", 0x70027000, "tegra-sata.0",
 		NULL),
 	OF_DEV_AUXDATA("pwm-backlight", 0, "pwm-backlight", NULL),
+
+#ifdef CONFIG_TEGRA_CEC_SUPPORT
+	OF_DEV_AUXDATA("nvidia,tegra124-cec", 0x70015000, "tegra_cec", NULL),
+#endif
+	OF_DEV_AUXDATA("nvidia,tegra-audio-rt5639", 0x0, "tegra-snd-rt5639",
+		NULL),
+	OF_DEV_AUXDATA("nvidia,icera-i500", 0, "tegra_usb_modem_power", NULL),
+	OF_DEV_AUXDATA("nvidia,ptm", 0x7081c000, "ptm", NULL),
+	OF_DEV_AUXDATA("nvidia,tegra30-hda", 0x70030000, "tegra30-hda", NULL),
+	OF_DEV_AUXDATA("nvidia,tegra-audio-rt5671", 0x0, "tegra-snd-rt5671",
+  				NULL),
+
 	{}
 };
 #endif	

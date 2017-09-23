@@ -143,7 +143,7 @@ struct snd_card {
 	struct mutex power_lock;	/* power lock */
 	wait_queue_head_t power_sleep;
 	struct task_struct *power_owner;
-	unsigned int power_count;
+ 	unsigned int power_count;
 #endif
 
 #if defined(CONFIG_SND_MIXER_OSS) || defined(CONFIG_SND_MIXER_OSS_MODULE)
@@ -156,18 +156,18 @@ struct snd_card {
 static inline void snd_power_lock(struct snd_card *card)
 {
 	if (card->power_owner != current) {
-		mutex_lock(&card->power_lock);
-		card->power_owner = current;
-	}
-	card->power_count++;
+ 		mutex_lock(&card->power_lock);
+ 		card->power_owner = current;
+ 	}
+ 	card->power_count++;
 }
 
 static inline void snd_power_unlock(struct snd_card *card)
 {
 	if (--card->power_count == 0) {
-		card->power_owner = NULL;
-		mutex_unlock(&card->power_lock);
-	}
+ 		card->power_owner = NULL;
+ 		mutex_unlock(&card->power_lock);
+ 	}
 }
 
 static inline unsigned int snd_power_get_state(struct snd_card *card)

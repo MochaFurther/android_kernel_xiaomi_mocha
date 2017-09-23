@@ -1537,8 +1537,8 @@ struct platform_device baseband_dit_device = {
 };
 
 struct platform_device fm_dit_device = {
-	.name = "spdif-dit",
-	.id = 3,
+ 	.name = "spdif-dit",
+ 	.id = 3,
 };
 
 
