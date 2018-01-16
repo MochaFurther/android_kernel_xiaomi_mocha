@@ -218,12 +218,15 @@ struct sdcardfs_mount_options {
 	gid_t fs_low_gid;
 	userid_t fs_user_id;
 	bool multiuser;
+	bool gid_derivation;
+
 	unsigned int reserved_mb;
 };
 
 struct sdcardfs_vfsmount_options {
 	gid_t gid;
 	mode_t mask;
+	bool default_normal;
 };
 
 extern int parse_options_remount(struct super_block *sb, char *options, int silent,
@@ -415,7 +418,9 @@ static inline int get_gid(struct vfsmount *mnt,
 {
 	struct sdcardfs_vfsmount_options *opts = mnt->data;
 
-	if (opts->gid == AID_SDCARD_RW)
+
+	if (opts->gid == AID_SDCARD_RW && !opts->default_normal)
+
 		/* As an optimization, certain trusted system components only run
 		 * as owner but operate across all users. Since we're now handing
 		 * out the sdcard_rw GID only to trusted apps, we're okay relaxing
