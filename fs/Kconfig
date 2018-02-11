@@ -276,5 +276,4 @@ config DYNAMIC_FSYNC
 	default n
 	help
 	  An experimental file sync control using new power_suspend driver
-
 endmenu
