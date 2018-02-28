@@ -264,7 +264,6 @@
 		rt5671@1c {
 			compatible = "realtek,rt5671";
 			reg = <0x1c>;
-
 	                realtek,jd_mode = <2>;
 	                realtek,codec_gpio = <&gpio 178 0>;
 	                realtek,in2_diff = <1>;
@@ -276,7 +275,6 @@
 		tfa9890@34 {
 			compatible = "nxp,tfa9890";
 			reg = <0x34>;
-
 			nxt,fw-boot = "tfa9890_boot.patch";
 			nxt,fw-rom = "tfa9890_rom.patch";
 			nxt,fw-speaker = "tfa9890_left.speaker";
@@ -297,10 +295,7 @@
 			nxt,fw-eq = "tfa9890_right_music.eq";
 		};
 
-	};
-	
-
-	};
+    };
 	
 	tegra_pwm: pwm@7000a000 {
 		clocks = <&tegra_car 17>;
