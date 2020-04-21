@@ -43,7 +43,6 @@ config ANDROID_BINDER_IPC_32BIT
 	  Enable this to support an old 32-bit Android user-space (v4.4 and
 	  earlier).
 
-
 endif # if ANDROID
 
 endmenu
