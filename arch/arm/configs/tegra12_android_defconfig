@@ -621,8 +621,8 @@ CONFIG_WIFI_CONTROL_FUNC=y
 CONFIG_BCM4354=y
 CONFIG_BCMDHD=y
 CONFIG_BCMDHD_SDIO=y
-CONFIG_BCMDHD_FW_PATH="/etc/firmware/fw_bcmdhd.bin"
-CONFIG_BCMDHD_NVRAM_PATH="/etc/firmware/nvram.txt"
+CONFIG_BCMDHD_FW_PATH="/firmware/fw_bcmdhd.bin"
+CONFIG_BCMDHD_NVRAM_PATH="vendor/etc/nvram.txt"
 # Info from bootloader
 CONFIG_BOOT_INFO=y
 # Touchscreen
