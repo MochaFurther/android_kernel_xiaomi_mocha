@@ -1,4 +1,5 @@
 #!/bin/bash
+<<<<<<< HEAD
 R=$(pwd)
 export ARCH=arm
 DEFCONFIG=mocha_android_defconfig
@@ -10,6 +11,45 @@ JOBS=8 # x Number of cores
 
 mkdir -p $OUT_DIR $BUILDING_DIR $MODULES_DIR
 FUNC_CLEANUP()
+=======
+
+export ARCH="arm"
+export KBUILD_BUILD_HOST="v5.00"
+export KBUILD_BUILD_USER="Dargons10"
+
+clean_build=0
+config="tegra12_android_defconfig"
+dtb_name="tegra124-mocha.dtb"
+dtb_only=0
+kernel_name=$(git rev-parse --abbrev-ref HEAD)
+threads=5
+toolchain="$HOME/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-"
+
+KERNEL_DIR=$PWD
+ORIGINAL_OUTPUT_DIR="$KERNEL_DIR/arch/$ARCH/boot"
+OUTPUT_DIR="$KERNEL_DIR/output"
+
+ERROR=0
+HEAD=1
+WARNING=2
+
+function printfc() {
+	if [[ $2 == $ERROR ]]; then
+		printf "\e[1;31m$1\e[0m"
+		return
+	fi;
+	if [[ $2 == $HEAD ]]; then
+		printf "\e[1;32m$1\e[0m"
+		return
+	fi;
+	if [[ $2 == $WARNING ]]; then
+		printf "\e[1;35m$1\e[0m"
+		return
+	fi;
+}
+
+function generate_version()
+>>>>>>> 84cdc676749... mocha: build.sh fix
 {
 	echo -e "\n\e[95mCleaning up..."
 	mkdir -p $OUT_DIR $BUILDING_DIR $MODULES_DIR
